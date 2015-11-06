@@ -1,6 +1,6 @@
 body {
   background-color: #333;
-  color: #fc9;
+  color: #eee;
   font-family: sans-serif;
   text-align: center;
 }
@@ -16,18 +16,48 @@ body {
   padding: 1rem;
 }
 
-.head, .usage, .roadmap {
+.block {
+  clear: left;
   background-color: #000;
   padding: 0.1rem 0;
   margin: 1rem 0;
 }
 
-h1, h2, p {
+.block:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media screen and (min-width: 700px) {
+  .manual, .packages {
+    width: 50%;
+    float: left;
+  }
+}
+
+h1, h2, h3 {
+  /*color: #FFFF00;*/
+  color: #37A690;
+  margin: 0.5rem 0 0 0;
+}
+
+h1, h2, h3, p {
   padding: 0 1rem;
 }
 
-code {
+a {
+  color: #37A690;
+}
+
+pre {
   margin: 1rem 2rem;
   border: 1px dashed #aaa;
   padding: 0.5rem;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+li.done {
+  text-decoration: line-through;
 }
