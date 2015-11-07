@@ -18,21 +18,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-document.addEventListener("DOMContentLoaded", function(event) { 
-  var au_aclasses = [1,14,27,36,39,42,49,58,59,60,61,101,103,106,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,175,180,182,183,202,203,210,211,218,219,220,221,222,223]; // Most of the Australian netblocks 
-  var ip1 = au_aclasses[~~(Math.random() * au_aclasses.length)];
-  var ip2 = ~~(Math.random() * 253) + 1; // rand 1..254
-  var ip3 = ~~(Math.random() * 253) + 1; // rand 1..254
-  var ip4 = ~~(Math.random() * 253) + 1; // rand 1..254
-  var ip = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
 
-  var ajax;
-  if (window.XMLHttpRequest) {
-    ajax=new XMLHttpRequest();
-  } else {
-    ajax=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  ajax.onreadystatechange=function() { if (ajax.readyState >= 3 && ajax.responseText.length >= 32*1024) ajax.abort() }
-  ajax.open("GET",window.location.protocol + '//' + ip, true);
-  ajax.send();
-});
+(function(){
+
+    var Squawk = function(testmode){
+        this.testmode = testmode||false;
+        this.ifr = this.init();
+    };
+    Squawk.prototype.genAddress=function(){
+        if( this.testmode ){
+            return 'http://rick.measham.id.au/paste/referrer.php';
+        }
+        var au_aclasses = [1,14,27,36,39,42,49,58,59,60,61,101,103,106,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,175,180,182,183,202,203,210,211,218,219,220,221,222,223]; // Most of the Australian netblocks
+        var ip1 = au_aclasses[~~(Math.random() * au_aclasses.length)];
+        var ip2 = ~~(Math.random() * 253) + 1; // rand 1..254
+        var ip3 = ~~(Math.random() * 253) + 1; // rand 1..254
+        var ip4 = ~~(Math.random() * 253) + 1; // rand 1..254
+        var ip = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+        return window.location.protocol + '//' + ip;
+    };
+    Squawk.prototype.init=function(){
+        var ifr=document.createElement('iframe');
+        ifr.src='about:blank';
+        if(!this.testmode) ifr.style.display='none';
+        document.body.appendChild(ifr);
+        return ifr;
+    }
+    Squawk.prototype.noise=function(){
+        var ht='<form id="f" action="' + this.genAddress() + '" method="GET"></form>';
+        this.ifr.contentDocument.body.innerHTML=ht;
+        this.ifr.contentDocument.getElementById('f').submit();
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var x = new Squawk(true);
+        x.noise();
+    });
+
+})();
