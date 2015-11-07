@@ -2,7 +2,7 @@
 <head>
 	<title>squawk.cc - referrer display</title>
 </head>
-<body style="background-color:white">
+<body style="background-color:<?php echo $_SERVER['HTTP_REFERER'] ? 'red' : 'green '; ?>">
 	<h2>Referrer</h2>
 	<?php if( $_SERVER['HTTP_REFERER'] ) :?>
 		<p>You were referred to this page by:</p>
